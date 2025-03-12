@@ -39,7 +39,7 @@ const _layout = () => {
         borderRadius: 50,
         marginHorizontal: 20,
         marginBottom: 36,
-        height: 51,
+        height: 52,
         position: 'absolute',
         overflow: 'hidden',
         borderWidth: 0,
