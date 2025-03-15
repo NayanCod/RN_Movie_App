@@ -11,49 +11,34 @@ const database = new Databases(client);
 
 export const updateSearchCount = async (query: string, movie: Movie) => {
   try {
-    // Fetch documents matching the search term
     const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
       Query.equal("searchTerm", query),
     ]);
 
-    // Deep clone to prevent "Already read" error
-    const documents = JSON.parse(JSON.stringify(result.documents));
-
-    console.log("Fetched Documents:", documents); // Debugging log
-
-    if (documents.length > 0) {
-      const existingMovie = documents[0]; // Get the first match
-
-      try {
-        await database.updateDocument(
-          DATABASE_ID,
-          COLLECTION_ID,
-          existingMovie.$id,
-          { count: existingMovie.count + 1 }
-        );
-        console.log(`Updated search count for movie: ${existingMovie.title}`);
-      } catch (updateError) {
-        console.error("Error updating document:", updateError);
-      }
+    if (result.documents.length > 0) {
+      const existingMovie = result.documents[0];
+      await database.updateDocument(
+        DATABASE_ID,
+        COLLECTION_ID,
+        existingMovie.$id,
+        {
+          count: existingMovie.count + 1,
+        }
+      );
     } else {
-      try {
-        await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
-          searchTerm: query,
-          movie_id: movie.id,
-          title: movie.title,
-          count: 1,
-          poster_url: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-        });
-        console.log(`Created new search entry for movie: ${movie.title}`);
-      } catch (createError) {
-        console.error("Error creating document:", createError);
-      }
+      await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
+        searchTerm: query,
+        movie_id: movie.id,
+        title: movie.title,
+        count: 1,
+        poster_url: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+      });
     }
   } catch (error) {
-    console.error("Error fetching documents:", error);
+    console.error("Error updating search count:", error);
+    throw error;
   }
 };
-
 
 export const getTrendingMovies = async (): Promise<
   TrendingMovie[] | undefined
