@@ -1,0 +1,34 @@
+import axios from 'axios';
+
+
+const GEMINI_API_KEY = process.env.EXPO_PUBLIC_GEMINI_API_KEY!;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY!}`;
+
+export const getGeminiResponse = async (prompt: string) => {
+  try {
+    const response = await axios.post(GEMINI_URL, {
+      contents: [{ parts: [
+        {
+            text: `You are an expert movie recommender. Your task is to suggest exactly 5 movies based on the given input. 
+            
+            The input could be a **genre, theme, mood, specific movie, actor, director, or combination** (e.g., "sci-fi thrillers", "movies like Inception", "best romantic comedies of the 2000s", "Leonardo DiCaprio adventure films"). 
+            
+            - **Only return the movie names**, formatted as a **numbered list** (1 to 5).
+            - **Do not include descriptions, explanations, or anything else**.
+            - **Do not repeat movie names** within the list.
+            
+            Here is the user input: "${prompt}". 
+            
+            Now, generate exactly 5 movie recommendations based on this input.`
+          }
+      ] }],
+    });
+    // console.log("GEMINI RESPOSNE: ", response);
+    
+
+    return response.data.candidates[0]?.content?.parts[0]?.text || "No response";
+  } catch (error) {
+    console.error("Gemini API Error:", error);
+    return "Error fetching response.";
+  }
+};
