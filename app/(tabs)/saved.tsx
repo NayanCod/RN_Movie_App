@@ -9,47 +9,63 @@ import {
   View,
   Text,
   Image,
-  TextInput,
-  Button,
   ScrollView,
   ActivityIndicator,
 } from "react-native";
 
 const Save = () => {
   const [input, setInput] = useState("");
-  const [movies, setMovies] = useState([]);
-  const [showMovies, setShowMovies] = useState([]);
+  const [movies, setMovies] = useState<string[]>([]);
+  const [showMovies, setShowMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleGenerate = async () => {
     setLoading(true);
     setError(null);
     setMovies([]);
 
-    const aiResponse = await getGeminiResponse(input);
-    const movieList = aiResponse
-      .split("\n")
-      .map((movie: string) => movie.replace(/^\d+\.\s*/, ""))
-      .filter((movie: string) => movie.trim() !== ""); // Remove numbering
-    // const filteredMovieList = movieList.filter(movie: => movie.trim() !== "");
-    // setResponse(aiResponse);
-    setMovies(movieList);
-  };
-
-  const getMovies = async (name: string) => {
-    setLoading(true);
-    const res = await fetchMoviesByName(name);
-    if (res) {
-      setShowMovies(res);
+    try {
+      const aiResponse = await getGeminiResponse(input);
+      const movieList = aiResponse
+        .split("\n")
+        .map((movie: string) => movie.replace(/^\d+\.\s*/, ""))
+        .filter((movie: string) => movie.trim() !== ""); // Remove numbering
+      console.log(movieList);
+      
+      setMovies(movieList);
+    } catch (error) {
+      setError("Error generating movie recommendations.");
+    } finally {
       setLoading(false);
     }
-    console.log(res);
+  };
+
+  const getMovies = async (names: string[]) => {
+    setLoading(true);
+    setError(null);
+    const allMovies: Movie[] = [];
+
+    try {
+      for (const name of names) {
+        const res = await fetchMoviesByName(name);
+        console.log(res);
+        
+        if (res) {
+          allMovies.push(...res);
+        }
+      }
+      setShowMovies(allMovies);
+    } catch (error) {
+      setError("Error fetching movies.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    if (movies.length > 0 && movies?.[0]) {
-      getMovies(movies[0]);
+    if (movies.length > 0) {
+      getMovies(movies);
     }
   }, [movies]);
 
