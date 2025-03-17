@@ -8,17 +8,18 @@ const TabIcon = ({focused, icon, title}: any) => {
   if(!focused){
     return (
       <View className='size-full justify-center items-center mt-4 rounded-full'>
-        <Image source={icon} tintColor="#A8B5DB" className='size-5'/>
+        <Image source={icon} tintColor={`${title ? '#A8B5DB' : null}`} className={`${title ? 'size-5' : 'size-10'}`}/>
       </View>
     )
   }
   return (
     <ImageBackground
     source={images.highlight}
-    className='flex flex-row w-full flex-1 min-w-[112px] min-h-16 mt-4 justify-center items-center rounded-full overflow-hidden'
+    className={`${title ? 'flex flex-row w-full flex-1 min-w-[112px] min-h-16 mt-4 justify-center items-center rounded-full overflow-hidden' : 'flex flex-row w-full flex-1 min-w-[70px] min-h-16 mt-4 justify-center items-center rounded-full overflow-hidden'}`}
     >
-      <Image source={icon} tintColor="#151312" className='size-5' />
-      <Text className='text-secondary text-base font-semibold ml-2'>{title}</Text>
+      <Image source={icon} tintColor={`${title ? '#151312' : null}`} className={`${title ? 'size-5' : 'size-10'}`} />
+      {title && <Text className='text-secondary text-base font-semibold ml-2'>{title}</Text>}
+      
     </ImageBackground>
   )
 }
@@ -68,12 +69,12 @@ const _layout = () => {
         }}
         />
         <Tabs.Screen 
-        name='saved'
+        name='smartSearch'
         options={{
-          title: 'Saved',
+          title: 'Smart Search',
           headerShown: false,
           tabBarIcon: ({focused}) => (
-            <TabIcon focused={focused} icon={icons.save} title="Saved"/>
+            <TabIcon focused={focused} icon={icons.aiSearch} title=""/>
           )
         }}
         />
