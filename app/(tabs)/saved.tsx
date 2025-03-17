@@ -17,7 +17,6 @@ import {
 
 const Save = () => {
   const [input, setInput] = useState("");
-  const [response, setResponse] = useState("");
   const [movies, setMovies] = useState([]);
   const [showMovies, setShowMovies] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -78,7 +77,7 @@ const Save = () => {
         {loading && (
           <ActivityIndicator size="large" color="#0000ff" className="my-3" />
         )}
-        {error && <Text className="text-red-500">{error}</Text>}
+        {error && <Text className="text-red-500 px-5 my-3">{error}</Text>}
         <ScrollView style={{ marginTop: 20 }} className="">
           {showMovies.length > 0 ? (
             <>

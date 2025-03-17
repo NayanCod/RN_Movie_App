@@ -9,18 +9,20 @@ export const getGeminiResponse = async (prompt: string) => {
     const response = await axios.post(GEMINI_URL, {
       contents: [{ parts: [
         {
-            text: `You are an expert movie recommender. Your task is to suggest exactly 5 movies based on the given input. 
-            
-            The input could be a **genre, theme, mood, specific movie, actor, director, or combination** (e.g., "sci-fi thrillers", "movies like Inception", "best romantic comedies of the 2000s", "Leonardo DiCaprio adventure films"). 
-            
-            - **Only return the movie names**, formatted as a **numbered list** (1 to 5).
-            - **Do not include descriptions, explanations, or anything else**.
-            - **Do not repeat movie names** within the list.
-            
-            Here is the user input: "${prompt}". 
-            
-            Now, generate exactly 5 movie recommendations based on this input.`
-          }
+          text: `You are an expert movie recommender. Your task is to suggest exactly 5 movies based on the given input.
+          
+          The input could be a **genre, theme, mood, specific movie, actor's movie, director, or combination** (e.g., "sci-fi thrillers", "movies like Inception", "best romantic comedies of the 2000s", "Leonardo DiCaprio adventure films", "Rober downey junior movie", "shahrukh khan").
+          
+          - **Only return the movie names**, formatted as a **numbered list** (1 to 5).
+          - **Do not include descriptions, explanations, or anything else**.
+          - **Do not repeat movie names** within the list.
+          - If the exact match is not available, suggest related movies.
+          - If no related movies are available, indicate that no recommendations can be made.
+          
+          Here is the user input: "${prompt}".
+          
+          Now, generate exactly 5 movie recommendations based on this input. If no exact matches are found, provide related movies. If no related movies are available, indicate that no recommendations can be made.`
+        }
       ] }],
     });
     // console.log("GEMINI RESPOSNE: ", response);

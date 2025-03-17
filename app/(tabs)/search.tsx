@@ -77,7 +77,7 @@ const search = () => {
             )}
             {error && (
               <Text className="text-red-500 px-5 my-3">
-                Error: {error.message}
+                {error.message}
               </Text>
             )}
             {!loading && !error && searchQuery.trim() && movies?.length > 0 && (
