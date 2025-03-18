@@ -89,6 +89,7 @@ const Save = () => {
           value={input}
           onChangeText={(text: string) => setInput(text)}
           onSubmitEditing={handleGenerate}
+          autocomplete={true}
         />
         {loading && (
           <ActivityIndicator size="large" color="#0000ff" className="my-3" />

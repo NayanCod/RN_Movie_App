@@ -7,6 +7,7 @@ import { getSearchSuggestion } from "@/services/geminiService";
 interface Props {
   placeholder: string;
   value?: string;
+  autocomplete?: boolean;
   onChangeText?: (text: string) => void;
   onPress?: () => void;
   onSubmitEditing?: () => void;
@@ -17,8 +18,10 @@ const SearchBar = ({
   value,
   onChangeText,
   onSubmitEditing,
+  autocomplete = false,
 }: Props) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [disableFetch, setDisableFetch] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchSuggestions = async () => {
@@ -35,23 +38,33 @@ const SearchBar = ({
         setSuggestions([]);
       }
     };
-    const timeoutId = setTimeout(async () => {
-      if (value && value.trim()) {
-        await fetchSuggestions();
-      } else {
-        setSuggestions([])
-      }
-    }, 700);
 
-    return () => clearTimeout(timeoutId);
-    if(value?.length === 0){
-      setSuggestions([])
+    if (autocomplete && !disableFetch) {
+      const timeoutId = setTimeout(async () => {
+        if (value && value.trim()) {
+          await fetchSuggestions();
+        } else {
+          setSuggestions([]);
+        }
+      }, 700);
+
+      return () => clearTimeout(timeoutId);
+    } else {
+      setSuggestions([]);
     }
-  }, [value]);
+
+    if (value?.length === 0) {
+      setSuggestions([]);
+    }
+  }, [value, autocomplete, disableFetch]);
 
   const handleSuggestionPress = (suggestion: string) => {
     if (onChangeText) {
       onChangeText(suggestion);
+      if(onSubmitEditing){
+        onSubmitEditing();
+      }
+      setDisableFetch(true);
     }
     setSuggestions([]);
   };
@@ -84,7 +97,7 @@ const SearchBar = ({
         </TouchableOpacity>
       ) : null}
     </View>
-    {suggestions.length > 0 && (
+    {autocomplete && suggestions.length > 0 && (
         <View className='absolute top-12 bg-dark-100 rounded-xl px-3 mt-4 z-50 w-full'>
           <FlatList
             data={suggestions}
