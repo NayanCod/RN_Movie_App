@@ -1,16 +1,18 @@
 import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
-import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Image, RefreshControl, ScrollView, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import useFetch from "@/services/useFetch";
 import { fetchMovies } from "@/services/api";
 import MovieCard from "@/components/MovieCard";
+import { useState } from "react";
 // import { getTrendingMovies } from "@/services/appwrite";
 // import TrendingCard from "@/components/TrendingCard";
 
 export default function Index() {
   const router = useRouter();
+  const [refreshing, setRefreshing] = useState(false);
 
   // const {
   //   data: trendingMovies,
@@ -22,7 +24,16 @@ export default function Index() {
     data: movies,
     loading,
     error,
+    refetch: refetchMovies,
   } = useFetch(() => fetchMovies({ query: "" }));
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetchMovies();
+    setRefreshing(false);
+  };
+
+
   return (
     <View className="flex-1 bg-primary">
       <Image source={images.bg} className="absolute w-full z-0" />
@@ -30,6 +41,16 @@ export default function Index() {
         className="flex-1 px-5"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ minHeight: "100%", paddingBottom: 10 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={["#ff0000", "#00ff00", "#0000ff"]}
+            tintColor="#ffffff" 
+            title="Pull to refresh" 
+            titleColor="#ffffff"
+          />
+        }
       >
         <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
 
