@@ -16,7 +16,7 @@ const search = () => {
     error,
     refetch: loadMovies,
     reset,
-  } = useFetch(() => fetchMovies({ query: searchQuery }), false);
+  } = useFetch(() => fetchMovies({ query: searchQuery, page: 1 }), false);
 
   // Debounced search effect
   useEffect(() => {
