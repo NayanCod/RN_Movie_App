@@ -1,5 +1,5 @@
-import { FlatList, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
 import { Image } from "react-native";
 import { icons } from "@/constants/icons";
 import { getSearchSuggestion } from "@/services/geminiService";
@@ -22,10 +22,12 @@ const SearchBar = ({
 }: Props) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [disableFetch, setDisableFetch] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchSuggestions = async () => {
+  const fetchSuggestions = useCallback(async () => {
+    try {
       if (value && value.trim().length > 0) {
+        setLoading(true);
         const results = await getSearchSuggestion(value);
         const searchResults = results
           .split("\n")
@@ -37,7 +39,15 @@ const SearchBar = ({
       } else {
         setSuggestions([]);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+      setSuggestions([]);
+    }finally{
+      setLoading(false);
+    }
+  }, [value]);
+
+  useEffect(() => {
 
     if (autocomplete && !disableFetch) {
       const timeoutId = setTimeout(async () => {
@@ -46,7 +56,7 @@ const SearchBar = ({
         } else {
           setSuggestions([]);
         }
-      }, 700);
+      }, 500);
 
       return () => clearTimeout(timeoutId);
     } else {
@@ -56,7 +66,7 @@ const SearchBar = ({
     if (value?.length === 0) {
       setSuggestions([]);
     }
-  }, [value, autocomplete, disableFetch]);
+  }, [value, autocomplete, disableFetch, fetchSuggestions]);
 
   const handleSuggestionPress = (suggestion: string) => {
     if (onChangeText) {
@@ -97,8 +107,13 @@ const SearchBar = ({
         </TouchableOpacity>
       ) : null}
     </View>
+    {
+      loading && (
+        <ActivityIndicator size="large" color="#0000ff" className="my-3" />
+      )
+    }
     {autocomplete && suggestions.length > 0 && (
-        <View className='absolute top-12 bg-dark-100 rounded-xl px-3 mt-4 z-50 w-full'>
+        <View className='absolute top-12 bg-dark-100 rounded-xl px-3 mt-4 z-50 w-full max-h-80'>
           <FlatList
             data={suggestions}
             keyExtractor={(item) => item}

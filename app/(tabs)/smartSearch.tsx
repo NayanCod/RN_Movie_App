@@ -36,8 +36,6 @@ const Save = () => {
       setMovies(movieList);
     } catch (error) {
       setError("Error generating movie recommendations.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -45,14 +43,24 @@ const Save = () => {
     setLoading(true);
     setError(null);
     const allMovies: Movie[] = [];
+    const movieIds = new Set();
 
     try {
       for (const name of names) {
         const res = await fetchMoviesByName(name);
         console.log(res);
         
+        // if (res) {
+        //   allMovies.push(...res);
+        // }
         if (res) {
-          allMovies.push(...res);
+
+          Array.isArray(res) && res.map((movie: Movie) => {
+            if (!movieIds.has(movie.id)) {
+              movieIds.add(movie.id);
+              allMovies.push(movie);
+            }
+          });
         }
       }
       setShowMovies(allMovies);

@@ -6,17 +6,17 @@ import { useRouter } from "expo-router";
 import useFetch from "@/services/useFetch";
 import { fetchMovies } from "@/services/api";
 import MovieCard from "@/components/MovieCard";
-import { getTrendingMovies } from "@/services/appwrite";
-import TrendingCard from "@/components/TrendingCard";
+// import { getTrendingMovies } from "@/services/appwrite";
+// import TrendingCard from "@/components/TrendingCard";
 
 export default function Index() {
   const router = useRouter();
 
-  const {
-    data: trendingMovies,
-    loading: trendingLoading,
-    error: trendingError,
-  } = useFetch(getTrendingMovies)
+  // const {
+  //   data: trendingMovies,
+  //   loading: trendingLoading,
+  //   error: trendingError,
+  // } = useFetch(getTrendingMovies)
 
   const {
     data: movies,
@@ -33,21 +33,21 @@ export default function Index() {
       >
         <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
 
-        {loading || trendingLoading ? (
+        {loading ? (
           <ActivityIndicator
           size='large'
           color="#0000ff"
           className="mt-10 self-center" 
           />
-        ): error || trendingError ? (
-          <Text>Error: {error?.message || trendingError?.message}</Text>
+        ): error ? (
+          <Text>Error: {error?.message}</Text>
         ) : (
         <View className="flex-1 mt-5">
           <SearchBar
             onPress={() => router.push("/search")}
             placeholder="Search movies..."
           />
-          {trendingMovies && (
+          {/* {trendingMovies && (
               <View className="mt-10">
                 <Text className="text-lg text-white font-bold mb-3">
                   Trending Movies
@@ -67,7 +67,7 @@ export default function Index() {
                   ItemSeparatorComponent={() => <View className="w-4" />}
                 />
               </View>
-            )}
+            )} */}
           <>
             <Text className="text-lg text-white font-bold mt-5 mb-3">Latest Movies</Text>
 
