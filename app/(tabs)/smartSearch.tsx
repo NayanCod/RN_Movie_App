@@ -106,7 +106,7 @@ const Save = () => {
         <ScrollView style={{ marginTop: 20 }} className="">
           {showMovies.length > 0 ? (
             <>
-              <Text className="text-accent my-4 text-xl">Your search results ({showMovies.length})</Text>
+              <Text className="text-accent my-4 text-xl">Your search results ({showMovies?.filter((movie) => movie.poster_path).length})</Text>
               <View className="w-full flex-row gap-4 flex-wrap pb-72">
                 {showMovies?.filter((movie) => movie.poster_path).map((movie: Movie) => (
                   <MovieCard key={movie.id} {...movie} />
