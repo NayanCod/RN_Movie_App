@@ -10,7 +10,7 @@ export const TMDB_CONFIG = {
 export const fetchMovies = async ({ query, page = 1 }: { query: string, page: number }) => {
   const endpoint = query
     ? `${TMDB_CONFIG.BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-    :  `${TMDB_CONFIG.BASE_URL}/discover/movie?include_adult=false&page=${page}sort_by=popularity.desc`;
+    :  `${TMDB_CONFIG.BASE_URL}/discover/movie?include_adult=false&page=${page}&include_video=true&primary_release_year=2023&sort_by=popularity.desc`;
 
   const res = await fetch(endpoint, {
     method: "GET",

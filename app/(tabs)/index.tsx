@@ -49,7 +49,7 @@ export default function Index() {
     refetchMovies();
   }, [page]);
 
-  const renderMovieItem = useCallback(({ item }) => <MovieCard {...item} />, []);
+  const renderMovieItem = useCallback(({ item }: {item: Movie}) => <MovieCard {...item} />, []);
 
   const handleScroll = (event: any) => {
     const offsetY = event.nativeEvent.contentOffset.y;
