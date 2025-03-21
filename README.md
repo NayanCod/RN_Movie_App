@@ -122,13 +122,15 @@ eas build -p android --profile preview
 ***You can also view and download it from your Expo dashboard: https://expo.dev/accounts***
 
 
-## 🌎 Adding Environment Variables for Production Build
+## 🌎 Adding Environment Variables
+before building you can add environmental variables in your expo dashboard
 ### 1. Go to your Expo dashboard: https://expo.dev/accounts
 
 ### 2. Navigate to your project and open Builds > Environment Variables.
 
 ### 3. Add:
 EXPO_PUBLIC_MOVIE_API_KEY=<your_tmdb_api_key>
+
 EXPO_PUBLIC_GEMINI_API_KEY=<your_gemini_api_key>
 
 ## ✅ That’s it!
