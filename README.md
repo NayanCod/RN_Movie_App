@@ -124,7 +124,7 @@ eas build -p android --profile preview
 
 ## 🌎 Adding Environment Variables
 before building you can add environmental variables in your expo dashboard
-### 1. Go to your Expo dashboard: https://expo.dev/accounts
+### 1. Go to your Expo dashboard: https://expo.dev
 
 ### 2. Navigate to your project and open Builds > Environment Variables.
 
