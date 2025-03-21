@@ -84,10 +84,10 @@ npx expo login
 ```bash
 eas init
 ```
-***After running above command it will modifie your app.json and also created eas.json file**
+**After running above command it will modify your app.json and also created eas.json file**
 
 
-**If eas.json not created then create it manually and paste the below code inside:**
+**if eas.json not created then create it manually and paste the below code inside:**
 
 ```json
 {
