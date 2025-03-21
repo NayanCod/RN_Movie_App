@@ -1,7 +1,8 @@
 # 📱 WatchSpot - React Native Expo App
 
-A mvie app built using React Native (Expo), powered by TMDB API and Gemini API.
-download the apk -> [https://expo.dev/artifacts/eas/aNgCB6PMiVrMBcaVqJkfPM.apk](Download)
+A movie app built using React Native (Expo), powered by TMDB API and Gemini API.
+
+**download the apk** -> [Downlaod](https://expo.dev/artifacts/eas/aNgCB6PMiVrMBcaVqJkfPM.apk)
 
 ---
 
