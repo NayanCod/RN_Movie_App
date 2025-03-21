@@ -2,7 +2,7 @@
 
 A movie app built using React Native (Expo), powered by TMDB API and Gemini API.
 
-**download the apk** -> [Downlaod](https://expo.dev/artifacts/eas/aNgCB6PMiVrMBcaVqJkfPM.apk)
+**download the apk** -> [Downlaod](https://expo.dev/artifacts/eas/aNgCB6PMiVrMBcaVqJkfPM.apk) (don't worry, it's safe)
 
 ---
 
