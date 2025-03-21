@@ -48,8 +48,8 @@ EXPO_PUBLIC_GEMINI_API_KEY=
 ```
 
 ### Get your API keys from here:
-### - TMDB Movie API Key from: https://developer.themoviedb.org/docs/getting-started
-### - Gemini API Key from: https://aistudio.google.com/app/apikey
+**- TMDB Movie API Key from: https://developer.themoviedb.org/docs/getting-started**
+**- Gemini API Key from: https://aistudio.google.com/app/apikey**
 
 
 ### 4. Run the app locally
