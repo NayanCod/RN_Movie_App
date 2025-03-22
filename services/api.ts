@@ -80,7 +80,7 @@ export const fetchMoviesByName = async (
 
 export const fetchMovieVideo = async (
   movieId: number
-): Promise<Movie> => {
+): Promise<any> => {
   try {
     const response = await fetch(
       `${TMDB_CONFIG.BASE_URL}/movie/${movieId}/videos`,

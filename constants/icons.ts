@@ -10,6 +10,8 @@ import gemini from "@/assets/icons/gemini.png";
 import cross from "@/assets/icons/cross.png";
 import aiSearch from "@/assets/icons/aiSearch.png";
 import up from "@/assets/icons/up.png";
+import playBtn from "@/assets/icons/playBtn.png";
+import pauseBtn from "@/assets/icons/pauseBtn.png";
 
 export const icons = {
   home,
@@ -24,4 +26,6 @@ export const icons = {
   cross,
   aiSearch,
   up,
+  pauseBtn,
+  playBtn,
 };
