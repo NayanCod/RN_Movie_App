@@ -13,8 +13,9 @@ import { useLocalSearchParams } from "expo-router";
 import useFetch from "@/services/useFetch";
 import { fetchMovieVideo } from "@/services/api";
 import { icons } from "@/constants/icons";
-import { WebView } from "react-native-webview";
+// import { WebView } from "react-native-webview";
 import { images } from "@/constants/images";
+import YoutubePlayer from "react-native-youtube-iframe";
 
 interface VideoInfoProps {
   name: string;
@@ -68,17 +69,6 @@ const trailer = () => {
   const topVideo = filteredAndSortedVideos && filteredAndSortedVideos[0];
   const topVideoKey = topVideo?.key ?? null;
   const [selectedKey, setSelectedKey] = useState(topVideoKey);
-  const [embedVideo, setEmbedVideo] = useState(
-    topVideo && `https://www.youtube.com/embed/${topVideo.key}`
-  );
-  const [loadPlay, setLoadPLay] = useState(false);
-
-  const handlePlay = (key: string) => {
-    setLoadPLay(true);
-    setSelectedKey(key);
-    setEmbedVideo(`https://www.youtube.com/embed/${key}`);
-    setLoadPLay(false);
-  };
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -96,10 +86,32 @@ const trailer = () => {
   return (
     <SafeAreaView className="w-full flex-1 bg-primary">
       <Image source={images.bg} className="absolute w-full z-0" />
+      <View className="w-full flex-col justify-center mt-20 mb-5 items-center">
+              <Image source={icons.logo} className="w-12 h-10" />
+              <Text>{}</Text>
+            </View>
+            {selectedKey && (
+              <>
+                <View className="w-full mb-3 overflow-hidden rounded-2xl">
+                <YoutubePlayer
+                  height={230}
+                  play={true}
+                  videoId={selectedKey}
+                  webViewProps={{
+                    allowsFullscreenVideo: true,
+                  }}
+                />
+                </View>
+                <View className="w-full h-1 bg-dark-100 rounded-full mb-3"></View>
+              </>
+            )}
+            {error && (
+              <Text className="text-red-500 px-5 my-3">{error.message}</Text>
+            )}
       <FlatList
         data={filteredAndSortedVideos}
         renderItem={({ item }) => (
-          <VideoInfo {...item} playVideo={() => handlePlay(item?.key)} selected={selectedKey === item?.key} />
+          <VideoInfo {...item} playVideo={() => setSelectedKey(item?.key)} selected={selectedKey === item?.key} />
         )}
         keyExtractor={(item) => item.id.toString()}
         className="px-2"
@@ -114,36 +126,6 @@ const trailer = () => {
           />
         }
         contentContainerStyle={{ paddingBottom: 100 }}
-        ListHeaderComponent={
-          <>
-            <View className="w-full flex-col justify-center mt-20 mb-5 items-center">
-              <Image source={icons.logo} className="w-12 h-10" />
-              <Text>{}</Text>
-            </View>
-            {loadPlay && (
-              <ActivityIndicator
-                size="large"
-                color="#0000ff"
-                className="my-3"
-              />
-            )}
-            {embedVideo && (
-              <>
-                <View className="w-full h-60 mb-5 overflow-hidden rounded-2xl">
-                  <WebView
-                    source={{ uri: embedVideo }}
-                    style={{ flex: 1 }}
-                    allowsFullscreenVideo
-                  />
-                </View>
-                <View className="w-full h-1 bg-dark-100 rounded-full my-3"></View>
-              </>
-            )}
-            {error && (
-              <Text className="text-red-500 px-5 my-3">{error.message}</Text>
-            )}
-          </>
-        }
         ListEmptyComponent={
           !loading && !error ? (
             <View className="mt-10 px-5">
