@@ -36,9 +36,7 @@ const Details = () => {
   );
 
   const getMovieVideo = () => {
-    console.log("hi");
     router.push(`/movies/${id}/trailer`)
-    
   }
 
   if (loading)
