@@ -27,13 +27,19 @@ interface VideoInfoProps {
 const VideoInfo = ({ name, type, playVideo, selected }: VideoInfoProps) => (
   <TouchableOpacity
     onPress={playVideo}
-    className={`flex-row items-center my-4 gap-4 px-5 rounded-xl py-3 ${selected ? 'bg-gray-700' : ''}`}
+    className={`flex-row items-center my-2 gap-4 px-5 rounded-xl py-3 ${
+      selected ? "bg-gray-700" : ""
+    }`}
   >
     <TouchableOpacity
       onPress={playVideo}
       className="flex items-center justify-center"
     >
-      <Image source={selected ? icons.pauseBtn : icons.playBtn} className="w-5 h-5" resizeMode="stretch" />
+      <Image
+        source={selected ? icons.pauseBtn : icons.playBtn}
+        className="w-5 h-5"
+        resizeMode="stretch"
+      />
     </TouchableOpacity>
     <View>
       <Text className="text-light-100 font-normal text-sm" numberOfLines={1}>
@@ -49,23 +55,12 @@ const trailer = () => {
   const { id } = useLocalSearchParams();
   const [refreshing, setRefreshing] = useState(false);
 
-  // const priorityOrder = ["Trailer", "Teaser", "Clip", "Featurette"];
-
   const {
     data: videos,
     loading,
     error,
     refetch,
   } = useFetch(() => fetchMovieVideo(Number(id)));
-
-  // const filteredAndSortedVideos = videos
-  //   ?.filter((video: MovieVideo) =>
-  //     ["Trailer", "Teaser", "Clip", "Featurette"].includes(video.type)
-  //   )
-  //   .sort(
-  //     (a: MovieVideo, b: MovieVideo) =>
-  //       priorityOrder.indexOf(a.type) - priorityOrder.indexOf(b.type)
-  //   );
 
   const topVideo = videos && videos[0];
   const topVideoKey = topVideo?.key ?? null;
@@ -88,31 +83,33 @@ const trailer = () => {
     <SafeAreaView className="w-full flex-1 bg-primary">
       <Image source={images.bg} className="absolute w-full z-0" />
       <View className="w-full flex-col justify-center mt-20 mb-5 items-center">
-              <Image source={icons.logo} className="w-12 h-10" />
-              <Text>{}</Text>
-            </View>
-            {selectedKey && (
-              <>
-                <View className="w-full mb-3 overflow-hidden rounded-2xl">
-                <YoutubePlayer
-                  height={230}
-                  play={true}
-                  videoId={selectedKey}
-                  webViewProps={{
-                    allowsFullscreenVideo: true,
-                  }}
-                />
-                </View>
-                <View className="w-full h-1 bg-dark-100 rounded-full mb-3"></View>
-              </>
-            )}
-            {error && (
-              <Text className="text-red-500 px-5 my-3">{error.message}</Text>
-            )}
+        <Image source={icons.logo} className="w-12 h-10" />
+        <Text>{}</Text>
+      </View>
+      {selectedKey && (
+        <>
+          <View className="w-full mb-3 overflow-hidden rounded-2xl">
+            <YoutubePlayer
+              height={230}
+              play={true}
+              videoId={selectedKey}
+              webViewProps={{
+                allowsFullscreenVideo: true,
+              }}
+            />
+          </View>
+          <View className="w-full h-1 bg-dark-100 rounded-full mb-3"></View>
+        </>
+      )}
+      {error && <Text className="text-red-500 px-5 my-3">{error.message}</Text>}
       <FlatList
         data={videos}
         renderItem={({ item }) => (
-          <VideoInfo {...item} playVideo={() => setSelectedKey(item?.key)} selected={selectedKey === item?.key} />
+          <VideoInfo
+            {...item}
+            playVideo={() => setSelectedKey(item?.key)}
+            selected={selectedKey === item?.key}
+          />
         )}
         keyExtractor={(item) => item.id.toString()}
         className="px-2"
