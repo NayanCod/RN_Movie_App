@@ -82,6 +82,8 @@ export const fetchMovieVideo = async (
   movieId: number
 ): Promise<any> => {
   try {
+    const priorityOrder = ["Trailer", "Teaser", "Clip", "Featurette"];
+    
     const response = await fetch(
       `${TMDB_CONFIG.BASE_URL}/movie/${movieId}/videos`,
       {
@@ -95,7 +97,16 @@ export const fetchMovieVideo = async (
     }
 
     const data = await response.json();
-    return data.results;
+
+    const filteredAndSortedVideos = data.results
+    ?.filter((video: MovieVideo) =>
+      ["Trailer", "Teaser", "Clip", "Featurette"].includes(video.type)
+    )
+    .sort(
+      (a: MovieVideo, b: MovieVideo) =>
+        priorityOrder.indexOf(a.type) - priorityOrder.indexOf(b.type)
+    );
+    return filteredAndSortedVideos;
   } catch (error) {
     console.error("Error fetching movie videos:", error);
     throw error;

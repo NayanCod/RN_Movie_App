@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import useFetch from "@/services/useFetch";
 import { fetchMovieVideo } from "@/services/api";
 import { icons } from "@/constants/icons";
@@ -45,9 +45,12 @@ const VideoInfo = ({ name, type, playVideo, selected }: VideoInfoProps) => (
 );
 
 const trailer = () => {
-  const [refreshing, setRefreshing] = useState(false);
-  const priorityOrder = ["Trailer", "Teaser", "Clip", "Featurette"];
+  const router = useRouter();
   const { id } = useLocalSearchParams();
+  const [refreshing, setRefreshing] = useState(false);
+
+  // const priorityOrder = ["Trailer", "Teaser", "Clip", "Featurette"];
+
   const {
     data: videos,
     loading,
@@ -55,18 +58,16 @@ const trailer = () => {
     refetch,
   } = useFetch(() => fetchMovieVideo(Number(id)));
 
-  const filteredAndSortedVideos = videos
-    ?.filter((video: MovieVideo) =>
-      ["Trailer", "Teaser", "Clip", "Featurette"].includes(video.type)
-    )
-    .sort(
-      (a: MovieVideo, b: MovieVideo) =>
-        priorityOrder.indexOf(a.type) - priorityOrder.indexOf(b.type)
-    );
+  // const filteredAndSortedVideos = videos
+  //   ?.filter((video: MovieVideo) =>
+  //     ["Trailer", "Teaser", "Clip", "Featurette"].includes(video.type)
+  //   )
+  //   .sort(
+  //     (a: MovieVideo, b: MovieVideo) =>
+  //       priorityOrder.indexOf(a.type) - priorityOrder.indexOf(b.type)
+  //   );
 
-  console.log("movie videos: ", filteredAndSortedVideos);
-
-  const topVideo = filteredAndSortedVideos && filteredAndSortedVideos[0];
+  const topVideo = videos && videos[0];
   const topVideoKey = topVideo?.key ?? null;
   const [selectedKey, setSelectedKey] = useState(topVideoKey);
 
@@ -109,7 +110,7 @@ const trailer = () => {
               <Text className="text-red-500 px-5 my-3">{error.message}</Text>
             )}
       <FlatList
-        data={filteredAndSortedVideos}
+        data={videos}
         renderItem={({ item }) => (
           <VideoInfo {...item} playVideo={() => setSelectedKey(item?.key)} selected={selectedKey === item?.key} />
         )}
@@ -136,6 +137,17 @@ const trailer = () => {
           ) : null
         }
       />
+      <TouchableOpacity
+        className="absolute bottom-20 left-0 right-0 mx-5 bg-accent rounded-lg py-3.5 flex flex-row items-center justify-center z-50"
+        onPress={router.back}
+      >
+        <Image
+          source={icons.arrow}
+          className="size-5 mr-1 mt-0.5 rotate-180"
+          tintColor="#fff"
+        />
+        <Text className="text-white font-semibold text-base">Go Back</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
