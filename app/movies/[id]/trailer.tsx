@@ -13,7 +13,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import useFetch from "@/services/useFetch";
 import { fetchMovieVideo } from "@/services/api";
 import { icons } from "@/constants/icons";
-// import { WebView } from "react-native-webview";
 import { images } from "@/constants/images";
 import YoutubePlayer from "react-native-youtube-iframe";
 
@@ -68,7 +67,6 @@ const trailer = () => {
 
   const onRefresh = async () => {
     setRefreshing(true);
-    // setPage(1);
     await refetch();
     setRefreshing(false);
   };
