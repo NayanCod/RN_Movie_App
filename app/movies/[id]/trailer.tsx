@@ -128,7 +128,7 @@ const trailer = () => {
           !loading && !error ? (
             <View className="mt-10 px-5">
               <Text className="text-center text-gray-500">
-                No tarilers or clip found
+                No trailers or clips found
               </Text>
             </View>
           ) : null
