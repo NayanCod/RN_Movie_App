@@ -9,16 +9,18 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nayan.watchspot",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.nayan.watchspot",
-      "googleServicesFile": "./google-services.json",
-      "permissions": ["INTERNET"]
+      "package": "com.nayan.watchspot"
     },
     "web": {
       "bundler": "metro",
@@ -37,7 +39,12 @@
         }
       ],
       "expo-secure-store",
-      "@react-native-google-signin/google-signin"
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.1057434224300-67lpdc2ruitsang709tctm3ltmr5rjdh"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
