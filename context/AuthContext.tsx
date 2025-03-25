@@ -1,122 +1,114 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import * as WebBrowser from "expo-web-browser";
-import * as Google from "expo-auth-session/providers/google";
-import * as SecureStore from "expo-secure-store";
+import { createContext, useContext, useEffect, useState } from 'react';
+import {auth} from '@/services/firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  User
+} from 'firebase/auth';
+import * as SecureStore from 'expo-secure-store';
 
-WebBrowser.maybeCompleteAuthSession();
-
-interface AuthContextType {
-  userInfo: any;
+type AuthContextType = {
+  user: User | null;
   loading: boolean;
   error: string | null;
-  signIn: () => Promise<void>;
-  signOut: () => Promise<void>;
-}
+  signUp: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [userInfo, setUserInfo] = useState(null);
-  const [loading, setLoading] = useState(true); // Start with loading true
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID,
-    webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,
-    scopes: ["profile", "email"],
-    responseType: "id_token",
-    extraParams: {
-        access_type: "offline",
-        prompt: "consent",
-      },
-  });
-
-  // Check for existing auth state when app launches
   useEffect(() => {
-    checkForExistingAuth();
+    checkLocalUser();
+    const unsubscribe = onAuthStateChanged(auth, handleAuthStateChanged);
+    return unsubscribe;
   }, []);
 
-  // Handle Google Sign In response
-  useEffect(() => {
-    if (response?.type === "success") {
-      handleSignInWithGoogle();
-    }
-  }, [response]);
-
-  async function checkForExistingAuth() {
+  const checkLocalUser = async () => {
     try {
-      const storedUser = await SecureStore.getItemAsync("userInfo");
-      if (storedUser) {
-        setUserInfo(JSON.parse(storedUser));
+      const userJSON = await SecureStore.getItemAsync('user');
+      if (userJSON) {
+        setUser(JSON.parse(userJSON));
       }
     } catch (error) {
-      setError("Failed to restore auth state");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleSignInWithGoogle() {
-    if (response?.type === "success") {
-      const { authentication } = response;
-      try {
-        setLoading(true);
-        const userInfoResponse = await fetch(
-          "https://www.googleapis.com/userinfo/v2/me",
-          {
-            headers: { Authorization: `Bearer ${authentication?.accessToken}` },
-          }
-        );
-        const user = await userInfoResponse.json();
-        await SecureStore.setItemAsync("userInfo", JSON.stringify(user));
-        setUserInfo(user);
-      } catch (error) {
-        setError("Failed to fetch user info");
-      } finally {
-        setLoading(false);
-      }
-    }
-  }
-
-  const signIn = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      console.log("ClientID:", process.env.EXPO_PUBLIC_ANDROID_CLIENT_ID); // Debug client ID
-      const result = await promptAsync();
-      console.log("Auth Result:", result);
-    } catch (error) {
-      setError("Failed to sign in");
-      setLoading(false);
+      console.error('Error checking local user:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const signOut = async () => {
+  const handleAuthStateChanged = async (user: User | null) => {
+    try {
+      if (user) {
+        await SecureStore.setItemAsync('user', JSON.stringify(user));
+      } else {
+        await SecureStore.deleteItemAsync('user');
+      }
+      setUser(user);
+    } catch (error) {
+      console.error('Error handling auth state change:', error);
+    }
+  };
+
+  const signUp = async (email: string, password: string) => {
     try {
       setLoading(true);
       setError(null);
-      await SecureStore.deleteItemAsync("userInfo");
-      setUserInfo(null);
-    } catch (error) {
-      setError("Failed to sign out");
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      setError(error.message);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const signIn = async (email: string, password: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      setError(error.message);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      await signOut(auth);
+      await SecureStore.deleteItemAsync('user');
+      setUser(null);
+    } catch (error: any) {
+      setError(error.message);
+      throw error;
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ userInfo, loading, error, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, loading, error, signUp, signIn, logout }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-export function useAuth() {
+export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-}
+};
