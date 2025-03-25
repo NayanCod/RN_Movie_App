@@ -4,12 +4,12 @@ import { getAuth } from 'firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCHpbZCkKUIr5GPZzhpfbRC-HBrwcorruo",
-  authDomain: "watchspot-21dd4.firebaseapp.com",
-  projectId: "watchspot-21dd4",
-  storageBucket: "watchspot-21dd4.firebasestorage.app",
-  messagingSenderId: "183735588850",
-  appId: "1:183735588850:web:e65493776a371336143d6b"
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID
 };
 
 // Initialize Firebase

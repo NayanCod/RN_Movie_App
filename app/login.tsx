@@ -10,6 +10,7 @@ export default function Login() {
   const { signIn, user, loading, error } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   if (user) {
     return <Redirect href="/(tabs)" />;
@@ -45,14 +46,26 @@ export default function Login() {
           keyboardType="email-address"
           autoCapitalize="none"
         />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          className="bg-dark-100 text-white px-4 py-3 rounded-lg mb-6"
-          placeholderTextColor="#666"
-        />
+        
+
+        <View className="relative">
+            <TextInput
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+                className="bg-dark-100 text-white px-4 py-3 rounded-lg mb-6"
+                placeholderTextColor="#666"
+            />
+            <TouchableOpacity 
+                onPress={() => setShowPassword(!showPassword)} 
+                className="absolute right-4 top-3"
+            >
+                <Text className="text-gray-400">
+                    {showPassword ? 'Hide' : 'Show'}
+                </Text>
+            </TouchableOpacity>
+        </View>
         
         {error && (
           <Text className="text-red-500 text-center mb-4">{error}</Text>
