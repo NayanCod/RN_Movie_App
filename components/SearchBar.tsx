@@ -80,7 +80,7 @@ const SearchBar = ({
   };
   return (
     <View className='flex-col relative'>
-    <View className="flex-row items-center bg-dark-100 px-5 py-2 rounded-full">
+    <View className="flex-row items-center bg-dark-100 px-5 py-4 rounded-full">
       <Image
         source={icons.search}
         className="size-5"
