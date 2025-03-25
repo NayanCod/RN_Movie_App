@@ -41,10 +41,16 @@ cd RN_Movie_App
 npm install
 ```
 
-### 3. Create a `.env` file in the root directory and paste the following:
+### 3. Create a `.env` file in the root directory and paste the following with your credentials:
 ```bash
 EXPO_PUBLIC_MOVIE_API_KEY=
 EXPO_PUBLIC_GEMINI_API_KEY=
+EXPO_PUBLIC_FIREBASE_API_KEY=
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=
+EXPO_PUBLIC_FIREBASE_PROJECT_ID=
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+EXPO_PUBLIC_FIREBASE_APP_ID=
 ```
 
 ### Get your API keys from here:
@@ -52,6 +58,8 @@ EXPO_PUBLIC_GEMINI_API_KEY=
 
 
 **- Gemini API Key from: https://aistudio.google.com/app/apikey**
+
+**- Firebase config keys: https://console.firebase.google.com/**
 
 
 ### 4. Run the app locally
