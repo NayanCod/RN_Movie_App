@@ -1,5 +1,5 @@
 import { ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { images } from "@/constants/images";
 import { Image } from "react-native";
 import { icons } from "@/constants/icons";
@@ -7,14 +7,15 @@ import { Redirect, useRouter } from "expo-router";
 import { useAuth } from "@/context/AuthContext";
 
 const index = () => {
-
-  // const { signIn, userInfo, loading, error } = useAuth();
   const router = useRouter();
+  const { user } = useAuth();
 
-  // // If user is already logged in, redirect to tabs
-  // if (userInfo) {
-  //   return <Redirect href="/(tabs)" />;
-  // }
+  // If user is already logged in, redirect to tabs
+  if (user) {
+    return <Redirect href="/(tabs)" />;
+  }
+
+
   return (
     <>
     <StatusBar hidden={true}/>
@@ -41,24 +42,13 @@ const index = () => {
         </Text>
       </View>
       <View className="px-6">
-      {/* <TouchableOpacity
-      onPress={signIn}
-      disabled={loading}  
-      className={`bg-dark-100 py-3 rounded-full mt-5 shadow-lg`}>
-        <Text className="text-white text-lg font-bold text-center">
-          {loading && !error ? 'Loading..' : 'Start Watching'}
-        </Text>
-      </TouchableOpacity> */}
       <TouchableOpacity
-      onPress={() => router.push("/(tabs)")}
+      onPress={() => router.push("/login")}
       className={`bg-dark-100 py-3 rounded-full mt-5 shadow-lg`}>
         <Text className="text-white text-lg font-bold text-center">
           Start Watching
         </Text>
       </TouchableOpacity>
-      {/* <Text className="text-center text-white text-sm mt-2">
-        {error}
-      </Text> */}
       </View>
     </View>
     </ScrollView>

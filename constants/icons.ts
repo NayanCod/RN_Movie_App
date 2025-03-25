@@ -12,6 +12,8 @@ import aiSearch from "@/assets/icons/aiSearch.png";
 import up from "@/assets/icons/up.png";
 import playBtn from "@/assets/icons/playBtn.png";
 import pauseBtn from "@/assets/icons/pauseBtn.png";
+import setting from "@/assets/icons/setting.png";
+import info from "@/assets/icons/info.png";
 
 export const icons = {
   home,
@@ -28,4 +30,6 @@ export const icons = {
   up,
   pauseBtn,
   playBtn,
+  setting,
+  info
 };
