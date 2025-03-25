@@ -87,7 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      await signOut(auth);
+      await signOut(auth).then(() => console.log('Signed out successfully'));
       await SecureStore.deleteItemAsync('user');
       setUser(null);
     } catch (error: any) {

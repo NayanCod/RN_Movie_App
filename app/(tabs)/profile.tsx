@@ -8,10 +8,15 @@ const Profile = () => {
   const { user, logout, loading } = useAuth();
   const router = useRouter();
 
+  const getInitial = (email: string | null | undefined) => {
+    if (!email) return '?';
+    return email.charAt(0).toUpperCase();
+  };
+
   const handleLogout = async () => {
     try {
       await logout();
-      router.replace('/');
+      router.replace('/login');
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -32,12 +37,10 @@ const Profile = () => {
       <View className="px-6 py-8">
         {/* Profile Header */}
         <View className="items-center mb-8">
-          <View className="bg-accent rounded-full p-6 mb-4">
-            <Image 
-              source={icons.person} 
-              className="size-16 rounded-full"
-              tintColor="#fff" 
-            />
+          <View className="bg-accent rounded-full py-6 px-8 mb-4">
+          <Text className="text-white text-4xl font-bold">
+              {getInitial(user?.email)}
+            </Text>
           </View>
           <Text className="text-white text-xl font-bold">
             {user?.email}
@@ -45,8 +48,8 @@ const Profile = () => {
         </View>
 
         {/* Profile Options */}
-        <View className="bg-dark-200 rounded-2xl p-4 mb-6">
-          <TouchableOpacity className="flex-row items-center py-3 px-2">
+        {/* <View className="bg-dark-200 rounded-2xl p-4 mb-6"> */}
+          <TouchableOpacity className="bg-dark-200 flex-row items-center py-5 px-4 rounded-xl mb-4">
             <Image 
               source={icons.setting} 
               className="size-5 mr-4"
@@ -55,24 +58,24 @@ const Profile = () => {
             <Text className="text-white text-base">Settings</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity className="flex-row items-center py-3 px-2">
+          <TouchableOpacity className="bg-dark-200 flex-row items-center py-5 px-4 rounded-xl mb-4">
             <Image 
               source={icons.info} 
               className="size-5 mr-4"
-              // tintColor="#fff" 
+              tintColor="#fff" 
             />
             <Text className="text-white text-base">About</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity className="flex-row items-center py-3 px-2">
+          <TouchableOpacity className="bg-dark-200 flex-row items-center py-5 px-4 rounded-xl mb-4">
             <Image 
               source={icons.info} 
               className="size-5 mr-4"
-              // tintColor="#fff" 
+              tintColor="#fff" 
             />
             <Text className="text-white text-base">Help</Text>
           </TouchableOpacity>
-        </View>
+        {/* </View> */}
 
         {/* Logout Button */}
         <TouchableOpacity 
