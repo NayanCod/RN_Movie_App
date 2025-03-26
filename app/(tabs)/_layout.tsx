@@ -15,7 +15,7 @@ const TabIcon = ({focused, icon, title}: any) => {
   return (
     <ImageBackground
     source={images.highlight}
-    className={`${title ? 'flex flex-row w-full flex-1 min-w-[112px] min-h-16 mt-4 justify-center items-center rounded-full overflow-hidden' : 'flex flex-row w-full flex-1 min-w-[70px] min-h-16 mt-4 justify-center items-center rounded-full overflow-hidden'}`}
+    className={`${title ? 'flex flex-row w-full flex-1 min-w-[80px] min-h-16 mt-5 justify-center items-center rounded-full overflow-hidden' : 'flex flex-row w-full flex-1 min-w-[70px] min-h-16 mt-4 justify-center items-center rounded-full overflow-hidden'}`}
     >
       <Image source={icon} tintColor={`${title ? '#151312' : null}`} className={`${title ? 'size-5' : 'size-10'}`} />
       {title && <Text className='text-secondary text-base font-semibold ml-2'>{title}</Text>}
@@ -75,6 +75,16 @@ const _layout = () => {
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <TabIcon focused={focused} icon={icons.aiSearch} title=""/>
+          )
+        }}
+        />
+        <Tabs.Screen 
+        name='saved'
+        options={{
+          title: 'Saved',
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <TabIcon focused={focused} icon={icons.save} title="Saved"/>
           )
         }}
         />

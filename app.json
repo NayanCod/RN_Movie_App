@@ -21,7 +21,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.nayan.watchspot",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./android/app/google-services.json"
     },
     "web": {
       "bundler": "metro",

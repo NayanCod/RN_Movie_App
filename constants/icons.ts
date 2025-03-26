@@ -14,6 +14,9 @@ import playBtn from "@/assets/icons/playBtn.png";
 import pauseBtn from "@/assets/icons/pauseBtn.png";
 import setting from "@/assets/icons/setting.png";
 import info from "@/assets/icons/info.png";
+import bookmarked from "@/assets/icons/bookmarked.png";
+import bookmark from "@/assets/icons/bookmark.png";
+import help from "@/assets/icons/help.png";
 
 export const icons = {
   home,
@@ -31,5 +34,8 @@ export const icons = {
   pauseBtn,
   playBtn,
   setting,
-  info
+  info,
+  bookmark,
+  bookmarked,
+  help
 };

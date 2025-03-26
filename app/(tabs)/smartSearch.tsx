@@ -93,7 +93,7 @@ const Save = () => {
       </View>
       <View className="my-5 px-5">
         <SearchBar
-          placeholder="what kind of movies you wanna see..."
+          placeholder="What kind of movies you wanna see..."
           value={input}
           onChangeText={(text: string) => setInput(text)}
           onSubmitEditing={handleGenerate}
