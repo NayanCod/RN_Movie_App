@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.nayan.watchspot"
+      "package": "com.nayan.watchspot",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
