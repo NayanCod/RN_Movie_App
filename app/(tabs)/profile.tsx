@@ -58,6 +58,15 @@ const Profile = () => {
             <Text className="text-white text-base">Settings</Text>
           </TouchableOpacity>
           
+          <TouchableOpacity onPress={() => router.push("/saved")} className="bg-dark-200 flex-row items-center py-5 px-4 rounded-xl mb-4">
+            <Image 
+              source={icons.save} 
+              className="size-5 mr-4"
+              tintColor="#fff" 
+            />
+            <Text className="text-white text-base">Saved movies</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity className="bg-dark-200 flex-row items-center py-5 px-4 rounded-xl mb-4">
             <Image 
               source={icons.info} 
@@ -69,7 +78,7 @@ const Profile = () => {
           
           <TouchableOpacity className="bg-dark-200 flex-row items-center py-5 px-4 rounded-xl mb-4">
             <Image 
-              source={icons.info} 
+              source={icons.help} 
               className="size-5 mr-4"
               tintColor="#fff" 
             />
