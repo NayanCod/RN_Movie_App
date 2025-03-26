@@ -98,6 +98,7 @@ export default function Index() {
               paddingRight: 5,
               marginBottom: 10,
             }}
+            contentContainerStyle={{ paddingBottom: 150 }}
             className="mt-2 pb-32 px-5"
             refreshControl={
               <RefreshControl
