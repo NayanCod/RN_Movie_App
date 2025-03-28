@@ -2,7 +2,10 @@
     "build": {
       "preview": {
         "android": {
-          "buildType": "apk"
+          "buildType": "apk",
+          "env": {
+            "GOOGLE_SERVICES_JSON": "google-services.json"
+        }
         }
       },
       "production": {

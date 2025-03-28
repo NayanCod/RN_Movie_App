@@ -17,6 +17,8 @@ import info from "@/assets/icons/info.png";
 import bookmarked from "@/assets/icons/bookmarked.png";
 import bookmark from "@/assets/icons/bookmark.png";
 import help from "@/assets/icons/help.png";
+import hide from "@/assets/icons/hide.png";
+import show from "@/assets/icons/show.png";
 
 export const icons = {
   home,
@@ -37,5 +39,7 @@ export const icons = {
   info,
   bookmark,
   bookmarked,
-  help
+  help,
+  show,
+  hide
 };

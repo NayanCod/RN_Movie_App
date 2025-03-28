@@ -1,15 +1,22 @@
-import { View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
-import { useAuth } from '@/context/AuthContext';
-import { useRouter, Redirect } from 'expo-router';
-import { useState } from 'react';
-import { images } from '@/constants/images';
-import { icons } from '@/constants/icons';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter, Redirect } from "expo-router";
+import { useState } from "react";
+import { images } from "@/constants/images";
+import { icons } from "@/constants/icons";
 
 export default function Login() {
   const router = useRouter();
   const { signIn, user, loading, error } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   if (user) {
@@ -18,13 +25,13 @@ export default function Login() {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      console.error('Please fill in all fields');
+      console.error("Please fill in all fields");
       return;
     }
     try {
       await signIn(email, password);
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
     }
   };
 
@@ -34,9 +41,11 @@ export default function Login() {
       <View className="flex-1 px-6 justify-center">
         <View className="w-full items-center mb-10">
           <Image source={icons.logo} className="w-16 h-14" />
-          <Text className="text-white text-2xl font-bold mt-4">Welcome Back!</Text>
+          <Text className="text-white text-2xl font-bold mt-4">
+            Welcome Back!
+          </Text>
         </View>
-        
+
         <TextInput
           placeholder="Email"
           value={email}
@@ -46,35 +55,37 @@ export default function Login() {
           keyboardType="email-address"
           autoCapitalize="none"
         />
-        
 
         <View className="relative">
-            <TextInput
-                placeholder="Password"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={!showPassword}
-                className="bg-dark-100 text-white px-4 py-3 rounded-lg mb-6"
-                placeholderTextColor="#666"
+          <TextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword}
+            className="bg-dark-100 text-white px-4 py-3 rounded-lg mb-6"
+            placeholderTextColor="#666"
+          />
+          <TouchableOpacity
+            onPress={() => setShowPassword(!showPassword)}
+            className={`absolute right-4 ${showPassword ? "top-3" : "top-4"}`}
+          >
+            <Image
+              source={showPassword ? icons.hide : icons.show}
+              className=""
+              tintColor="#ccc"
             />
-            <TouchableOpacity 
-                onPress={() => setShowPassword(!showPassword)} 
-                className="absolute right-4 top-3"
-            >
-                <Text className="text-gray-400">
-                    {showPassword ? 'Hide' : 'Show'}
-                </Text>
-            </TouchableOpacity>
+          </TouchableOpacity>
         </View>
-        
+
         {error && (
           <Text className="text-red-500 text-center mb-4">{error}</Text>
         )}
-        
+
         <TouchableOpacity
           onPress={handleLogin}
           disabled={loading}
-          className="bg-accent py-3 rounded-lg">
+          className="bg-accent py-3 rounded-lg"
+        >
           {loading ? (
             <ActivityIndicator color="white" />
           ) : (
@@ -83,10 +94,11 @@ export default function Login() {
             </Text>
           )}
         </TouchableOpacity>
-        
-        <TouchableOpacity 
+
+        <TouchableOpacity
           onPress={() => router.push("/signup")}
-          className="mt-4">
+          className="mt-4"
+        >
           <Text className="text-white text-center">
             Don't have an account? Sign Up
           </Text>
