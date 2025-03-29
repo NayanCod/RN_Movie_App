@@ -103,20 +103,6 @@ const Save = () => {
           <ActivityIndicator size="large" color="#0000ff" className="my-3" />
         )}
         {error && <Text className="text-red-500 px-5 my-3">{error}</Text>}
-        {/* <ScrollView style={{ marginTop: 20 }} className="">
-          {showMovies.length > 0 ? (
-            <>
-              <Text className="text-accent my-4 text-xl">Your search results ({showMovies?.filter((movie) => movie.poster_path).length})</Text>
-              <View className="w-full flex-row gap-4 flex-wrap pb-72">
-                {showMovies?.filter((movie) => movie.poster_path).map((movie: Movie) => (
-                  <MovieCard key={movie.id} {...movie} />
-                ))}
-              </View>
-            </>
-          ) : (
-  
-          )}
-        </ScrollView> */}
         <FlatList
         data={showMovies.filter((movie) => movie.poster_path)}
         renderItem={({ item }) => <MovieCard {...item} />}
