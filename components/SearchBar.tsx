@@ -56,7 +56,7 @@ const SearchBar = ({
         } else {
           setSuggestions([]);
         }
-      }, 500);
+      }, 300);
 
       return () => clearTimeout(timeoutId);
     } else {

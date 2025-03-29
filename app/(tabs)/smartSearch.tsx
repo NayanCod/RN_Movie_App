@@ -9,8 +9,8 @@ import {
   View,
   Text,
   Image,
-  ScrollView,
   ActivityIndicator,
+  FlatList,
 } from "react-native";
 
 const Save = () => {
@@ -103,7 +103,7 @@ const Save = () => {
           <ActivityIndicator size="large" color="#0000ff" className="my-3" />
         )}
         {error && <Text className="text-red-500 px-5 my-3">{error}</Text>}
-        <ScrollView style={{ marginTop: 20 }} className="">
+        {/* <ScrollView style={{ marginTop: 20 }} className="">
           {showMovies.length > 0 ? (
             <>
               <Text className="text-accent my-4 text-xl">Your search results ({showMovies?.filter((movie) => movie.poster_path).length})</Text>
@@ -114,15 +114,42 @@ const Save = () => {
               </View>
             </>
           ) : (
-            <View className="mt-10 px-5">
+  
+          )}
+        </ScrollView> */}
+        <FlatList
+        data={showMovies.filter((movie) => movie.poster_path)}
+        renderItem={({ item }) => <MovieCard {...item} />}
+        keyExtractor={(item) => item.id.toString()}
+        className="px-5"
+        numColumns={3}
+        columnWrapperStyle={{
+          justifyContent: "flex-start",
+          gap: 16,
+          marginVertical: 16,
+        }}
+        contentContainerStyle={{ paddingBottom: 100 }}
+        ListHeaderComponent={
+          <>
+          {
+            showMovies.length > 0 && (
+              <Text className="text-accent my-4 text-xl">Your search results ({showMovies?.filter((movie) => movie.poster_path).length})</Text>
+            )
+          }
+          </>
+        }
+        ListEmptyComponent={
+          !loading && !error ? (
+            <View className="mt-10 px-2">
               <Text className="text-center text-gray-500">
                 {input.trim()
                   ? "No movies found"
                   : "Search for types of movies you wanna see"}
               </Text>
             </View>
-          )}
-        </ScrollView>
+          ) : null
+        }
+      />
       </View>
     </View>
   );

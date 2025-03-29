@@ -21,7 +21,7 @@ export const getGeminiResponse = async (prompt: string) => {
           
           Here is the user input: "${prompt}".
           
-          Now, generate movie recommendations based on this input. If no exact matches are found, provide related movies. If no related movies are available, indicate that no recommendations can be made.`
+          Now, generate exact 5 movie recommendations based on this input. If no exact matches are found, provide related movies. If no related movies are available, indicate that no recommendations can be made.`
         }
       ] }],
     });
