@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const GEMINI_API_KEY = process.env.EXPO_PUBLIC_GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY!}`;
 
@@ -53,7 +52,7 @@ export const getSearchSuggestion = async (query: string) => {
           
           Here is the user input: "${query}".
           
-          Now, generate movie recommendations based on this input. If no exact matches are found, provide related movies. If no related movies are available, indicate that no recommendations can be made.`
+          Now, generate movie recommendations based on this input. If no exact matches are found, provide related movies. If no related movies are available, indicate that no recommendations can be made with res -> Not found.`
         }
       ] }],
     });
