@@ -24,8 +24,6 @@ export const getGeminiResponse = async (prompt: string) => {
         }
       ] }],
     });
-    // console.log("GEMINI RESPOSNE: ", response);
-    
 
     return response.data.candidates[0]?.content?.parts[0]?.text || "No response";
   } catch (error) {
@@ -56,7 +54,6 @@ export const getSearchSuggestion = async (query: string) => {
         }
       ] }],
     });
-    
 
     return response.data.candidates[0]?.content?.parts[0]?.text || "No response";
   } catch (error) {

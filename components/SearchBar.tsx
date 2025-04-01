@@ -32,8 +32,7 @@ const SearchBar = ({
         const searchResults = results
           .split("\n")
           .map((movie: string) => movie.replace(/^\d+\.\s*/, ""))
-          .filter((movie: string) => movie.trim() !== ""); // Remove numbering
-        console.log("search result: ", searchResults);
+          .filter((movie: string) => movie.trim() !== "");
 
         setSuggestions(searchResults);
       } else {

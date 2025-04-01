@@ -30,8 +30,7 @@ const Save = () => {
       const movieList = aiResponse
         .split("\n")
         .map((movie: string) => movie.replace(/^\d+\.\s*/, ""))
-        .filter((movie: string) => movie.trim() !== ""); // Remove numbering
-      console.log(movieList);
+        .filter((movie: string) => movie.trim() !== "");
       
       setMovies(movieList);
     } catch (error) {
@@ -48,13 +47,8 @@ const Save = () => {
     try {
       for (const name of names) {
         const res = await fetchMoviesByName(name);
-        console.log(res);
         
-        // if (res) {
-        //   allMovies.push(...res);
-        // }
         if (res) {
-
           Array.isArray(res) && res.map((movie: Movie) => {
             if (!movieIds.has(movie.id)) {
               movieIds.add(movie.id);

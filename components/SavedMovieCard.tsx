@@ -23,14 +23,12 @@ const SavedMovieCard = ({
 
     try {
       const savedMoviesRef = collection(db, "users", user.uid, "savedMovies");
-      console.log("saved movie found: ", savedMoviesRef);
       
       const quiry = query(savedMoviesRef, where("movieId", "==", movieId));
       const snapshot = await getDocs(quiry);
       snapshot.forEach(async (doc) => {
         await deleteDoc(doc.ref);
       });
-      console.log("movie deleted from saved");
       
     } catch (error) {
       console.log(error);
